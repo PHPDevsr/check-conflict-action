@@ -16,3 +16,6 @@ jobs:
 
       - name: Check conflict branch in PR
         uses: ./
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          label: conflict
