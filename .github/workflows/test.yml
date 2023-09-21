@@ -1,7 +1,10 @@
 name: Check conflict branch in PR 
 on:
   schedule:
-    - cron: '0 */2 * * *' # Run at every 2 hours
+    - cron: '*/5 * * * *' # Run at every 5 minutes
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -16,3 +19,6 @@ jobs:
 
       - name: Check conflict branch in PR
         uses: ./
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          label: conflict
