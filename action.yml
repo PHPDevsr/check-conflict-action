@@ -43,6 +43,8 @@ runs:
 
         IFS=$'\n' # Set Internal Field Separator to newline to handle array elements
 
+        echo "$PR_LIST"
+
         # Iterate through the PRs in PR_LIST
         for pr in $(echo "$PR_LIST" | jq -c '.[]'); do
           mergeable=$(echo "$pr" | jq -r '.mergeable')
