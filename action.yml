@@ -6,11 +6,11 @@ branding:
 inputs:
   token:
     description: GitHub token to comment on the PR
-    default: ${{ secrets.GITHUB_TOKEN }}
+    default: ${{ github.token }}
     required: true
   label:
     description: GitHub label conflict to labeling on the PR
-    default: Conflicts
+    default: conflict
     required: true
   comment:
     description: The comment to place in the PR
@@ -63,7 +63,7 @@ runs:
             gh pr comment $url --body "$COMMENT_TEXT"
           fi
 
-          echo "Already running on $url"
+          echo "[+] Already running on $url"
         done
 
         echo "Keep running 🎉"
