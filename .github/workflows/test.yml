@@ -17,7 +17,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          persist-credentials: false
 
       - name: Check conflict branch in PR
         uses: ./
