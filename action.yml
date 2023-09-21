@@ -58,23 +58,29 @@ runs:
           # MERGEABLE with label
           if [ "$mergeable" == "true" ] && [[ ! "$labels" == "$LABEL_GIT" ]]; then
             # Remove label
-            curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
-              "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/labels/$LABEL_GIT"
+            responseRemoveWithLabel=$(curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
+              "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/labels/$LABEL_GIT")
+
+            echo "$responseRemoveWithLabel"
           fi
 
           # CONFLICTING with no label
           if [ "$mergeable" == "false" ] && [[ ! "$labels" == *"$LABEL_GIT"* ]]; then
             # Add label
-            curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
+            responseAddNoLabel=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
               -H "Accept: application/vnd.github.v3+json" \
               -d "{\"labels\":[\"$LABEL_GIT\"]}" \
-              "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/labels"
+              "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/labels")
+
+            echo "$responseAddNoLabel"
 
             # Add a comment
-            curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
+            responseCommentAddNoLabel=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
               -H "Accept: application/vnd.github.v3+json" \
               -d "{\"body\":\"$COMMENT_TEXT\"}" \
-              "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/comments"
+              "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/comments")
+
+            echo "$responseCommentAddNoLabel"
           fi
         done
 
