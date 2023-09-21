@@ -48,6 +48,5 @@ The comment that will be placed in the PR upon detecting conflict branch can be 
 - name: Check conflict branch in PR
   uses: PHPDevsr/check-conflict-action@v1
   with:
-    comment: |
-      Customized comment in the PR
+    label: CustomizedLabel
 ```
