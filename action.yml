@@ -48,7 +48,7 @@ runs:
           author=$(echo "$pr" | jq -r '.user.login') # Menggunakan .user.login untuk mendapatkan nama pengguna pembuat PR
           labels=$(echo "$pr" | jq -c '.labels[].name' | tr -d '[]"')
           url=$(echo "$pr" | jq -r '.url')
-          PR_NUMBER=$(echo "$pr" | jq -r '.number')
+          html_url=$(echo "$pr" | jq -r '.html_url')
 
           # MERGEABLE with label
           if [ "$mergeable" == "true" ] && [[ ! "$labels" == "$LABEL_GIT" ]]; then
@@ -72,7 +72,7 @@ runs:
               "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/comments"
           fi
 
-          echo "[+] Running on $url"
+          echo "[+] Running on $html_url"
         done
 
         echo "Keep running 🎉"
