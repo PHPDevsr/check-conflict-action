@@ -32,8 +32,7 @@ runs:
         COMMENT_TEXT: ${{ inputs.comment }}
       run: |
         PR_LIST=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-            "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls?state=all&per_page=100 | \
-            jq '.[] | {mergeable, url, labels, user}'")
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls?state=all&per_page=100 | jq '.[] | {mergeable, url, labels, user}'")
 
         # Escape double quotes and newlines
         LABEL_GIT="$(echo "$LABEL_GIT" | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')"
