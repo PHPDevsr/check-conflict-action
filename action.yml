@@ -1,0 +1,67 @@
+name: Check conflict branch in PR
+description: Ensure PRs with conflict branch getting help started to syncing branch latest.
+branding:
+  icon: check
+  color: green
+inputs:
+  token:
+    description: GitHub token to comment on the PR
+    default: ${{ git_token }}
+    required: true
+  label:
+    description: GitHub label conflict to labeling on the PR
+    default: ${{ git_label }}
+    required: true
+  comment:
+    description: The comment to place in the PR
+    default: |
+      :wave: Hi, @$author!
+
+      We detected conflicts in your PR against the base branch :speak_no_evil:
+      You may want to sync :arrows_counterclockwise: your branch with upstream!
+
+      Ref: https://github.com/codeigniter4/CodeIgniter4/blob/develop/contributing/workflow.md#pushing-your-branch
+
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+        LABEL_GIT: ${{ inputs.label }}
+        COMMENT_TEXT: ${{ inputs.comment }}
+      run: |
+        PR_LIST=$(gh pr list -L 100 --json mergeable,url,labels,author)
+
+        # Escape double quotes and newlines
+        LABEL_GIT="$(echo "$LABEL_GIT" | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')"
+
+        # Escape double quotes and newlines
+        COMMENT_TEXT="$(echo "$COMMENT_TEXT" | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')"
+
+        IFS=$'\n' # Set Internal Field Separator to newline to handle array elements
+
+        # Iterate through the PRs in PR_LIST
+        for pr in $(echo "$PR_LIST" | jq -c '.[]'); do
+          mergeable=$(echo "$pr" | jq -r '.mergeable')
+          author=$(echo "$pr" | jq -r '.author.login')
+          labels=$(echo "$pr" | jq -c '.labels[].name' | tr -d '[]"')
+          url=$(echo "$pr" | jq -r '.url')
+
+          # MERGEABLE with label
+          if [ "$mergeable" == "MERGEABLE" ] && [[ ! "$labels" == "$LABEL_GIT" ]]; then
+            # Remove label
+            gh pr edit $PR_URL --remove-label "$LABEL_GIT"
+          fi
+
+          # CONFLICTING with no label
+          if [ "$mergeable" == "CONFLICTING" ] && [[ ! "$labels" == *"$LABEL_GIT"* ]]; then
+            # Add label
+            gh pr edit $url --add-label "$LABEL_GIT"
+
+            # Add a comment
+            gh pr comment $url --body "$COMMENT_TEXT"
+          fi
+        done
+
+        echo "Keep running 🎉"
