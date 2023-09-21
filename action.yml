@@ -63,7 +63,7 @@ runs:
             gh pr comment $url --body "$COMMENT_TEXT"
           fi
 
-          echo "Running on $url"
+          echo "Already running on $url"
         done
 
         echo "Keep running 🎉"
