@@ -18,7 +18,7 @@ inputs:
   comment:
     description: The comment to place in the PR
     default: |
-      :wave: Hi, @${{ inputs.author }}!
+      :wave: Hi, @${{ author }}!
 
       We detected conflicts in your PR against the base branch :speak_no_evil:
       You may want to sync :arrows_counterclockwise: your branch with upstream!
