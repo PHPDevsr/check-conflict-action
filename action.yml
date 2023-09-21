@@ -32,7 +32,7 @@ runs:
         COMMENT_TEXT: ${{ inputs.comment }}
       run: |
         PR_LIST=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-            "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls?state=all&per_page=100 | jq '.[] | {mergeable, url, labels, user}'")
+            "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls?state=all&per_page=100")
 
         # Escape double quotes and newlines
         LABEL_GIT="$(echo "$LABEL_GIT" | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')"
@@ -41,8 +41,6 @@ runs:
         COMMENT_TEXT="$(echo "$COMMENT_TEXT" | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')"
 
         IFS=$'\n' # Set Internal Field Separator to newline to handle array elements
-
-        echo "$PR_LIST"
 
         # Iterate through the PRs in PR_LIST
         for pr in $(echo "$PR_LIST" | jq -c '.[]'); do
@@ -53,6 +51,7 @@ runs:
           url=$(echo "$pr" | jq -r '.url')
           html_url=$(echo "$pr" | jq -r '.html_url')
 
+          echo "$pr"
           echo "[+] Repository on $GITHUB_REPOSITORY"
           echo "[+] PR Number on $PR_NUMBER"
           echo "[+] Status mergeable : $mergeable"
