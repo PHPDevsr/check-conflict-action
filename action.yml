@@ -62,6 +62,8 @@ runs:
             # Add a comment
             gh pr comment $url --body "$COMMENT_TEXT"
           fi
+
+          echo "[+] Running on $url"
         done
 
         echo "Keep running 🎉"
