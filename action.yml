@@ -12,10 +12,13 @@ inputs:
     description: GitHub label conflict to labeling on the PR
     default: conflict
     required: true
+  author:
+    description: GitHub Author on the PR
+    default: ${{ github.event.pull_request.user.login }}
   comment:
     description: The comment to place in the PR
     default: |
-      :wave: Hi, @$author!
+      :wave: Hi, @${{ inputs.author }}!
 
       We detected conflicts in your PR against the base branch :speak_no_evil:
       You may want to sync :arrows_counterclockwise: your branch with upstream!
@@ -28,6 +31,7 @@ runs:
     - shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
+        GITHUB_AUTHOR: ${{ inputs.author }}
         LABEL_GIT: ${{ inputs.label }}
         COMMENT_TEXT: ${{ inputs.comment }}
       run: |
