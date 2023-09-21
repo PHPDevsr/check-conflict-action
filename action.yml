@@ -31,8 +31,7 @@ runs:
         LABEL_GIT: ${{ inputs.label }}
         COMMENT_TEXT: ${{ inputs.comment }}
       run: |
-        PR_LIST=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-            "https://api.github.com/repos/$GITHUB_REPOSITORY/pulls?state=all&per_page=100")
+        PR_LIST=$(gh pr list -L 100 --json mergeable,url,labels,author)
 
         # Escape double quotes and newlines
         LABEL_GIT="$(echo "$LABEL_GIT" | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')"
