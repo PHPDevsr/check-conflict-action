@@ -8,7 +8,7 @@ A GitHub Action that checks the Pull Request with conflict branch, labeling cust
 name: Check Conflict in PR 
 on:
   schedule:
-    - cron: '0 */6 * * *' # Run at every 6 hours
+    - cron: '*/20 * * * *' # Run at every 20 minutes
 
 jobs:
   build:
