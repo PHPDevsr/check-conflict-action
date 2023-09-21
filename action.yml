@@ -50,6 +50,10 @@ runs:
           url=$(echo "$pr" | jq -r '.url')
           html_url=$(echo "$pr" | jq -r '.html_url')
 
+          echo "[+] Repository on $GITHUB_REPOSITORY"
+          echo "[+] PR Number on $PR_NUMBER"
+          echo "[+] Running on $html_url"
+
           # MERGEABLE with label
           if [ "$mergeable" == "true" ] && [[ ! "$labels" == "$LABEL_GIT" ]]; then
             # Remove label
@@ -71,8 +75,6 @@ runs:
               -d "{\"body\":\"$COMMENT_TEXT\"}" \
               "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/comments"
           fi
-
-          echo "[+] Running on $html_url"
         done
 
         echo "Keep running 🎉"
