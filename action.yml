@@ -47,12 +47,13 @@ runs:
           mergeable=$(echo "$pr" | jq -r '.mergeable')
           author=$(echo "$pr" | jq -r '.user.login') # Menggunakan .user.login untuk mendapatkan nama pengguna pembuat PR
           labels=$(echo "$pr" | jq -c '.labels[].name' | tr -d '[]"')
+          PR_NUMBER=$(echo "$pr" | jq -r '.number')
           url=$(echo "$pr" | jq -r '.url')
           html_url=$(echo "$pr" | jq -r '.html_url')
 
           echo "[+] Repository on $GITHUB_REPOSITORY"
           echo "[+] PR Number on $PR_NUMBER"
-          echo "[+] Running on $html_url"
+          echo "[+] URL on $html_url"
 
           # MERGEABLE with label
           if [ "$mergeable" == "true" ] && [[ ! "$labels" == "$LABEL_GIT" ]]; then
