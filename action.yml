@@ -6,11 +6,11 @@ branding:
 inputs:
   token:
     description: GitHub token to comment on the PR
-    default: ${{ git_token }}
+    default: ${{ secrets.GITHUB_TOKEN }}
     required: true
   label:
     description: GitHub label conflict to labeling on the PR
-    default: ${{ git_label }}
+    default: Conflicts
     required: true
   comment:
     description: The comment to place in the PR
