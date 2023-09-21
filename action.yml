@@ -53,6 +53,8 @@ runs:
 
           echo "[+] Repository on $GITHUB_REPOSITORY"
           echo "[+] PR Number on $PR_NUMBER"
+          echo "[+] Status mergeable : $mergeable"
+          echo "[+] Status label : $labels"
           echo "[+] URL on $html_url"
 
           # MERGEABLE with label
