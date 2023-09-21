@@ -24,8 +24,8 @@ jobs:
       - name: Check conflict branch in PR
         uses: PHPDevsr/check-conflict-action@v1
         with:
-          git_token: ${{ secrets.GITHUB_TOKEN }}
-          git_label: stale
+          token: ${{ secrets.GITHUB_TOKEN }}
+          label: Conflicts
 ```
 
 ## Change PR Comment
