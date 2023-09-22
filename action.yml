@@ -31,7 +31,7 @@ runs:
         LABEL_GIT: ${{ inputs.label }}
         COMMENT_TEXT: ${{ inputs.comment }}
       run: |
-        PR_LIST=$(gh pr list -L 100 --json mergeable,url,labels,number,author)
+        PR_LIST=$(gh pr list -L 100 --json mergeable,url,html_url,labels,number,author)
 
         # Escape double quotes and newlines
         LABEL_GIT="$(echo "$LABEL_GIT" | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')"
@@ -55,10 +55,10 @@ runs:
           echo "[+] PR Number on $PR_NUMBER"
           echo "[+] Status mergeable : $mergeable"
           echo "[+] Status label : $labels"
-          echo "[+] URL on $html_url"
+          echo "[+] URL on $html_url\n"
 
           # MERGEABLE with label
-          if [ "$mergeable" == "true" ] && [[ ${labels[@]} =~ "$LABEL_GIT" ]]; then
+          if [ "$mergeable" == "MERGEABLE" ] && [[ ! "$labels" == "$LABEL_GIT" ]]; then
             # Remove label
             responseRemoveWithLabel=$(curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
               "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/labels/$LABEL_GIT")
@@ -67,7 +67,7 @@ runs:
           fi
 
           # CONFLICTING with no label
-          if [ "$mergeable" == "false" ] && [[ ! "$labels" == *"$LABEL_GIT"* ]]; then
+          if [ "$mergeable" == "CONFLICTING" ] && [[ ! "$labels" == *"$LABEL_GIT"* ]]; then
             # Add label
             responseAddNoLabel=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
               -H "Accept: application/vnd.github.v3+json" \
