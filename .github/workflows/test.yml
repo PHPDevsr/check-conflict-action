@@ -1,10 +1,7 @@
 name: Check conflict branch in PR 
 on:
   schedule:
-    - cron: '*/5 * * * *' # Run at every 5 minutes
-  pull_request:
-    branches:
-      - main
+    - cron: '*/2 * * * *' # Run at every 2 minutes
 
 jobs:
   build:
