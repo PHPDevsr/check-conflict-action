@@ -59,7 +59,8 @@ runs:
           # MERGEABLE with label
           if [ "$mergeable" == "MERGEABLE" ] && [[ ! "$labels" == "$LABEL_GIT" ]]; then
             # Remove label
-            responseRemoveWithLabel=$(curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
+            responseRemoveWithLabel=$(curl -X DELETE -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer $GITHUB_TOKEN" \
               "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/labels/$LABEL_GIT")
 
             echo "$responseRemoveWithLabel"
@@ -68,16 +69,16 @@ runs:
           # CONFLICTING with no label
           if [ "$mergeable" == "CONFLICTING" ] && [[ ! "$labels" == *"$LABEL_GIT"* ]]; then
             # Add label
-            responseAddNoLabel=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
-              -H "Accept: application/vnd.github.v3+json" \
+            responseAddNoLabel=$(curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
               -d "{\"labels\":[\"$LABEL_GIT\"]}" \
               "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/labels")
 
             echo "$responseAddNoLabel"
 
             # Add a comment
-            responseCommentAddNoLabel=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
-              -H "Accept: application/vnd.github.v3+json" \
+            responseCommentAddNoLabel=$(curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
               -d "{\"body\":\"$COMMENT_TEXT\"}" \
               "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/comments")
 
