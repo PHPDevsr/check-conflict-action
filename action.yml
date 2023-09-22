@@ -52,6 +52,7 @@ runs:
           echo "[+] Status mergeable : $mergeable"
           echo "[+] Status label : $labels"
           echo "[+] Labeling Target on $LABEL_GIT"
+          echo "[+] Author Target on $authorVar"
           echo ""
 
           # MERGEABLE with label
@@ -68,7 +69,7 @@ runs:
           # CONFLICTING with no label
           if [ "$mergeable" == "CONFLICTING" ] && [[ ! "$labels" == *"$LABEL_GIT"* ]]; then
             # Replace author
-            COMMENT_TEXT="$(echo ${COMMENT_TEXT//authorTarget/$authorVar})"
+            COMMENT_TEXT="$(echo $COMMENT_TEXT | sed -e "s/authorTarget/${authorVar}/g")"
 
             echo -e "$COMMENT_TEXT"
 
