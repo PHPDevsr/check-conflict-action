@@ -34,9 +34,6 @@ runs:
         PR_LIST=$(gh pr list -L 100 --json mergeable,url,labels,number,author)
 
         # Escape double quotes and newlines
-        LABEL_GIT="$(echo "$LABEL_GIT" | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')"
-
-        # Escape double quotes and newlines
         COMMENT_TEXT="$(echo "$COMMENT_TEXT" | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')"
 
         IFS=$'\n' # Set Internal Field Separator to newline to handle array elements
