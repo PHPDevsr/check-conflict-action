@@ -28,6 +28,10 @@ jobs:
           label: Conflicts
 ```
 
+For note: `The shortest interval you can run scheduled workflows is once every 5 minutes.`
+
+See https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule
+
 ## Change PR Comment
 
 The comment that will be placed in the PR upon detecting conflict branch can be changed using the `comment` field:
