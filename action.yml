@@ -58,7 +58,7 @@ runs:
           echo "[+] URL on $html_url"
 
           # MERGEABLE with label
-          if [ "$mergeable" == "true" ] && [[ ! "$labels" == "$LABEL_GIT" ]]; then
+          if [ "$mergeable" == "true" ] && [[ ${labels[@]} =~ "$LABEL_GIT" ]]; then
             # Remove label
             responseRemoveWithLabel=$(curl -X DELETE -H "Authorization: token $GITHUB_TOKEN" \
               "https://api.github.com/repos/$GITHUB_REPOSITORY/issues/$PR_NUMBER/labels/$LABEL_GIT")
