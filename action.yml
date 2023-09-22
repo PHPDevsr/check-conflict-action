@@ -44,7 +44,7 @@ runs:
         # Iterate through the PRs in PR_LIST
         for pr in $(echo "$PR_LIST" | jq -c '.[]'); do
           mergeable=$(echo "$pr" | jq -r '.mergeable')
-          author=$(echo "$pr" | jq -r '.user.login') # Menggunakan .user.login untuk mendapatkan nama pengguna pembuat PR
+          authorVar=$(echo "$pr" | jq -r '.user.login') # Menggunakan .user.login untuk mendapatkan nama pengguna pembuat PR
           labels=$(echo "$pr" | jq -c '.labels[].name' | tr -d '[]"')
           PR_NUMBER=$(echo "$pr" | jq -r '.number')
           url=$(echo "$pr" | jq -r '.url')
@@ -69,7 +69,7 @@ runs:
           # CONFLICTING with no label
           if [ "$mergeable" == "CONFLICTING" ] && [[ ! "$labels" == *"$LABEL_GIT"* ]]; then
             # Replace author
-            COMMENT_TEXT="$(echo ${COMMENT_TEXT//$author/$author})"
+            COMMENT_TEXT="$(echo ${COMMENT_TEXT//$author/$authorVar})"
 
             # Add label
             responseAddNoLabel=$(curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
