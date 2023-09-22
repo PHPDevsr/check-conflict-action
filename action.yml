@@ -70,6 +70,8 @@ runs:
             # Replace author
             COMMENT_TEXT="$(echo ${COMMENT_TEXT//authorTarget/$authorVar})"
 
+            echo -e "$COMMENT_TEXT"
+
             # Add label
             responseAddNoLabel=$(curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
               -H "Accept: application/vnd.github+json" \
