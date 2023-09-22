@@ -56,7 +56,7 @@ runs:
           echo ""
 
           # MERGEABLE with label
-          if [ "$mergeable" == "MERGEABLE" ] && [[ ! "$labels" == "$LABEL_GIT" ]]; then
+          if [ "$mergeable" == "MERGEABLE" ] && [[ "$labels" == *"$LABEL_GIT"* ]]; then
             # Remove label
             responseRemoveWithLabel=$(curl -X DELETE -H "Accept: application/vnd.github+json" \
               -H "Authorization: Bearer $GITHUB_TOKEN" \
