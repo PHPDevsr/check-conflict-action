@@ -44,6 +44,8 @@ The comment that will be placed in the PR upon detecting conflict branch can be 
       Customized comment in the PR
 ```
 
+If you need tagged the author, you can use `authorTarget` magic get author in PR
+
 ## Change PR Label
 
 The comment that will be placed in the PR upon detecting conflict branch can be changed using the `comment` field:
