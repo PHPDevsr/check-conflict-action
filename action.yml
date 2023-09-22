@@ -41,7 +41,7 @@ runs:
         # Iterate through the PRs in PR_LIST
         for pr in $(echo "$PR_LIST" | jq -c '.[]'); do
           mergeable=$(echo "$pr" | jq -r '.mergeable')
-          authorVar=$(echo "$pr" | jq -c '.author[].login')
+          authorVar=$(echo "$pr" | jq -c '.author[].login' | tr -d '"')
           labels=$(echo "$pr" | jq -c '.labels[].name' | tr -d '[]"')
           PR_NUMBER=$(echo "$pr" | jq -r '.number')
           url=$(echo "$pr" | jq -r '.url')
