@@ -31,7 +31,7 @@ runs:
         LABEL_GIT: ${{ inputs.label }}
         COMMENT_TEXT: ${{ inputs.comment }}
       run: |
-        PR_LIST=$(gh pr list -L 100 --json mergeable,url,html_url,labels,number,author)
+        PR_LIST=$(gh pr list -L 100 --json mergeable,url,labels,number,author)
 
         # Escape double quotes and newlines
         LABEL_GIT="$(echo "$LABEL_GIT" | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')"
@@ -48,14 +48,13 @@ runs:
           labels=$(echo "$pr" | jq -c '.labels[].name' | tr -d '[]"')
           PR_NUMBER=$(echo "$pr" | jq -r '.number')
           url=$(echo "$pr" | jq -r '.url')
-          html_url=$(echo "$pr" | jq -r '.html_url')
 
           echo "$pr"
           echo "[+] Repository on $GITHUB_REPOSITORY"
           echo "[+] PR Number on $PR_NUMBER"
           echo "[+] Status mergeable : $mergeable"
           echo "[+] Status label : $labels"
-          echo "[+] URL on $html_url\n"
+          echo ""
 
           # MERGEABLE with label
           if [ "$mergeable" == "MERGEABLE" ] && [[ ! "$labels" == "$LABEL_GIT" ]]; then
