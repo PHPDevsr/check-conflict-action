@@ -68,6 +68,9 @@ runs:
 
           # CONFLICTING with no label
           if [ "$mergeable" == "CONFLICTING" ] && [[ ! "$labels" == *"$LABEL_GIT"* ]]; then
+            # Replace author
+            COMMENT_TEXT="$(echo ${COMMENT_TEXT//$author/$author})"
+
             # Add label
             responseAddNoLabel=$(curl -X POST -H "Authorization: Bearer $GITHUB_TOKEN" \
               -H "Accept: application/vnd.github+json" \
