@@ -1,4 +1,4 @@
-# Check signed commits in PR
+# Check conflict branch in PR
 
 A GitHub Action that checks the Pull Request with conflict branch, labeling custom conflict and also places a comment in the PR to inform the author about next steps.
 
@@ -55,4 +55,15 @@ The comment that will be placed in the PR upon detecting conflict branch can be 
   uses: PHPDevsr/check-conflict-action@v1
   with:
     label: CustomizedLabel
+```
+
+## Change list limit PR
+
+When job schedule running, detecting by default `100` last PR.
+
+```yml
+- name: Check conflict branch in PR
+  uses: PHPDevsr/check-conflict-action@v1
+  with:
+    limit: 200
 ```
