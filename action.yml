@@ -12,6 +12,9 @@ inputs:
     description: GitHub label conflict to labeling on the PR
     default: conflict
     required: true
+  limit:
+    description: Limitable Pull Request List
+    default: 100
   comment:
     description: The comment to place in the PR
     default: |
@@ -29,9 +32,10 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
         LABEL_GIT: ${{ inputs.label }}
+        LIMIT_GIT: ${{ inputs.limit }}
         COMMENT_TEXT: ${{ inputs.comment }}
       run: |
-        PR_LIST=$(gh pr list -L 100 --json mergeable,url,labels,number,author)
+        PR_LIST=$(gh pr list -L $LIMIT_GIT --json mergeable,url,labels,number,author)
 
         # Escape double quotes and newlines
         COMMENT_TEXT="$(echo "$COMMENT_TEXT" | sed 's/"/\\"/g' | awk '{printf "%s\\n", $0}')"
