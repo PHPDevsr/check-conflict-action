@@ -95,6 +95,8 @@ runs:
 
             echo "$responseCommentAddNoLabel"
           fi
+
+          echo "[+] Already running on $url"
         done
 
         echo "Keep running 🎉"
