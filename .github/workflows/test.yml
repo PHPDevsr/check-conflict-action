@@ -1,7 +1,7 @@
 name: Check conflict branch in PR 
 on:
   schedule:
-    - cron: '*/6 * * * *' # Run at every 6 minutes
+    - cron: '*/30 * * * *' # Run at every 6 minutes
 
 jobs:
   build:
